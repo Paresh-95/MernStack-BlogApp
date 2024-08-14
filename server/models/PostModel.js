@@ -14,6 +14,10 @@ const blogPostSchema = new mongoose.Schema({
         type: String, // Assuming this is a URL to an image
         required:true
     },
+    pass:{
+        type:String,
+        required:true
+    },
     likes:[{
         type: mongoose.Schema.Types.ObjectId,
         ref:"Like",

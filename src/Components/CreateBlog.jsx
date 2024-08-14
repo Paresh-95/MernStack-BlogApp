@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import {toast} from "react-hot-toast"
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { handleNewBlogsRefresh } from "./Home";
 
 function CreateBlog() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
-    description: " ",
-    posterImage: " ",
+    description: "",
+    posterImage: "",
+    pass: "",
   });
 
   function changeHandler(e) {
@@ -19,29 +23,29 @@ function CreateBlog() {
 
   async function submitHandler(e) {
     e.preventDefault();
-    toast.success("Blog Created");
-   try {
-    const response =  fetch('http://localhost:4000/api/v1/createBlog',{
-      method:"POST",
-      headers:{
-        'Content-Type':"application/json"
-      },
-      body: JSON.stringify(formData)
-    })
-    console.log(response);
-    
-   } catch (error) {
-    toast.danger("Error Creating Blog");
-      console.log("register "+error);
-      
-   }  
-  }
 
+    try {
+      const response = fetch("/api/v1/createBlog", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      console.log(response);
+      toast.success("Blog Created");
+      handleNewBlogsRefresh();
+      navigate("/"); // Go back to the previous page
+    } catch (error) {
+      toast.danger("Error Creating Blog");
+      console.log("register " + error);
+    }
+  }
 
   return (
     <div>
       <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content w-[100%] flex-col lg:flex-row lg:justify-evenly gap-48">
+        <div className="hero-content w-[100%] flex-col lg:flex-row lg:justify-evenly gap-14 lg:gap-48">
           <div className="text-center lg:text-left">
             <h1 className="text-5xl font-bold">Create Blog</h1>
             <p className="py-6">
@@ -80,6 +84,7 @@ function CreateBlog() {
                   name="description"
                   value={formData.description}
                   required
+                  rows={2}
                 />
               </div>
               <div className="form-control">
@@ -96,10 +101,23 @@ function CreateBlog() {
                   required
                 />
               </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="text-md font-bold">Password</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter Password "
+                  onChange={changeHandler}
+                  value={formData.pass}
+                  name="pass"
+                  className="input input-bordered"
+                  required
+                />
+              </div>
+
               <div className="form-control mt-6">
-                <button
-                  className="btn btn-primary font-bold"
-                >
+                <button className="btn btn-primary font-bold">
                   Create Blog
                 </button>
               </div>

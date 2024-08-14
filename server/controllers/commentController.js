@@ -5,6 +5,8 @@ exports.createComment = async(req,res)=>{
     try{
         //fetch data from req body
         const {post,user,body} = req.body
+       
+        
         //create comment object
         const comment = new Comment({
             post,user,body
@@ -39,7 +41,8 @@ exports.deleteComment = async(req,res)=>{
     try{
         //fetch data from req body
         const {post,comment} = req.body
-    
+        console.log("post "+post);
+        console.log("comment "+comment );
         const deletedComment = await Comment.findOneAndDelete({post:post,_id:comment})
 
        const updatedPost = await Post.findByIdAndUpdate(post,{$pull:{comments:deletedComment._id}},{new:true})

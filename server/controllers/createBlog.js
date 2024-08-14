@@ -1,14 +1,18 @@
 const Blog = require("../models/PostModel");
 const Comment = require("../models/commentModel")
 const Like = require("../models/likeModel");
+const bcrypt = require("bcryptjs")
 
 
 
 exports.createBlog = async(req,res)=>{
     try{
-        const {title,description,posterImage} = req.body;
+        const {title,description,posterImage,pass} = req.body;
 
-        const response = await Blog.create({title,description,posterImage});
+        const saltRound = 10;
+        const hashPass = await bcrypt.hash(pass,saltRound)
+
+        const response = await Blog.create({title,description,posterImage,pass:hashPass});
 
         res.status(200).json(
             {

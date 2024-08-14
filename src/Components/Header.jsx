@@ -31,15 +31,7 @@ function Header() {
               <Link to={"/"}>Home</Link>
             </li>
             <li>
-              <Link to={"/viewblogs"}>Blogs</Link>
-              <ul className="p-2">
-                <li>
-                  <Link to={"/viewblogs"}>View Blogs</Link>
-                </li>
-                <li>
-                  <Link to={"/createblogs"}>Create Blogs </Link>
-                </li>
-              </ul>
+              <Link to={"/createblogs"}>Create Blogs </Link>
             </li>
             <li>
               <Link to={"/about"}>About</Link>
